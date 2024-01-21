@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 #coding=utf8
+import json
 import os
 import sys
 import cv2
@@ -70,6 +71,45 @@ def get_xywh():
 #启用socket通信线程
 # threading.Thread(target=get_xywh, daemon=True).start()#daemon=True表示该线程会随着主线程的退出而退出
 
+xywh = None#全局变量,传递坐标数据
+cls = None#全局变量,传递类别数据
+def recv_data_all():
+    global xywh
+    global cls
+    host = "192.168.1.36"
+    print(host)
+    port = 6524
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind((host, port))
+    server_socket.listen(1)  # 参数表示最大等待连接数,单位是个
+    print(f"等待连接在 {host}:{port}...")
+    client_socket, addr = server_socket.accept()
+    print(f"连接来自 {addr}")
+    while True:
+        received_data = client_socket.recv(1024).decode()
+        parsed_data = json.loads(received_data)
+        if parsed_data != None:
+            xywh = parsed_data["xywh"]
+            cls = parsed_data["cls"]
+    client_socket.close()  # 关闭连接
+
+
+#detect_color
+#0:blue
+#1:red
+#2:cup
+def get_color(detect_color):    #def get_color(detect_color, xywh, cls):
+    global xywh
+    global cls
+    min_x_value = 640
+    if xywh != None and cls != None:
+        for i in range(len(cls)):
+            # print(cls[i])
+            if cls[i] == detect_color:
+                if xywh[i][0] < min_x_value:
+                    need_xywh = xywh[i]# need_xywh = xywh[i][0]
+                    # print(need_xywh)
+                    return need_xywh
 
 distance_data = []#全局变量,传递超声波数据
 def get_distance():
@@ -92,10 +132,8 @@ def get_distance():
 # threading.Thread(target=run, daemon=True).start()#daemon=True表示该线程会随着主线程的退出而退出
 
 
-
-
-
 if __name__ == '__main__':
+    detect_color = 0
     import HiwonderSDK.Sonar as Sonar   
     from CameraCalibration.CalibrationConfig import *
     #加载参数
@@ -107,24 +145,26 @@ if __name__ == '__main__':
     mapx, mapy = cv2.initUndistortRectifyMap(mtx, dist, None, newcameramtx, (640, 480), 5)
     init()
     start()
-    action = action.action(speed=100,move_distance=20,PID_P=1)
+    action = action.action(speed=100,move_distance=20,
+                           PID_Px=0.6,PID_Ix=0.1,PID_Dx=0.1,
+                           PID_Py=0.4,PID_Iy=0.05,PID_Dy=0.15)
     action.Grab_correction_location(ik, distance = 0)
-    threading.Thread(target=get_xywh, daemon=True).start()#daemon=True表示该线程会随着主线程的退出而退出
-    cv2.waitKey(0)
+    threading.Thread(target=recv_data_all, daemon=True).start()#daemon=True表示该线程会随着主线程的退出而退出
+    # ik.left_move(ik.initial_pos, 2, 0, 100, 1)  # 左移10mm
     while True:
-        if data != None:
+        if xywh != None and cls != None:
             break
         print('等待数据')
         time.sleep(0.5)
 
-        
     while True:
-        flag = action.alignment_PID(eval(data)[0],eval(data)[1],ik,high = 420)
-        if flag == True:
-            print('对准了')
-            break 
-        if flag == False:
-            print('没对准')
+        if get_color(detect_color) != None: #and get_color(detect_color)[0] !=None and get_color(1)[1] != None
+            flag = action.alignment_PID(get_color(detect_color)[0],get_color(detect_color)[1],ik,width= 320, high = 395,range=5)
+            if flag == False:
+                print('没对准')
+            else:
+                print("对准了")
+                break
     action.grap()   
     print('抓取完成')
     
