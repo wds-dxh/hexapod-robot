@@ -17,6 +17,7 @@ import Functions.Running as Running
 import Functions.Transport as Transport
 import Functions.Avoidance as Avoidance
 import Functions.lab_adjust as lab_adjust
+import Functions.kinematics as kinematics
 import Functions.ColorTrack as ColorTrack
 import Functions.FaceDetect as FaceDetect
 import Functions.ColorDetect as ColorDetect
