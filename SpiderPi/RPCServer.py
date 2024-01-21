@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 # coding=utf8
+import os
 import sys
 import time
 import math
 import copy
+import logging
 import threading
 from werkzeug.serving import run_simple
 from ActionGroupDict import action_group_dict
@@ -90,7 +92,7 @@ def SetArmReset():
         angle = 0
         use_times = 1500
         if time.time() - old_time >= use_times/1000:
-            Board.setBusServoPulse(25, 500, int(use_times / 2))
+            Board.setBusServoPulse(25, 500, int(use_times/2))
             AK.setPitchRangeMoving((0, 10, 30), angle, -90, 100, use_times)
             old_time = time.time()
         

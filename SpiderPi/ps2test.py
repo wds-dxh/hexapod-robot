@@ -2,9 +2,17 @@
 # coding=utf8
 import sys
 sys.path.append('/home/pi/SpiderPi/')
+import os
 import time
+import json
+import pygame
+import asyncio
+import threading
+import websockets
 import HiwonderSDK.Board as Board
 import Functions.kinematics as kinematics
+import HiwonderSDK.ActionGroupControl as AGC
+import Functions.Robot_dance as dance
 import pygame
 import sys
 

@@ -107,21 +107,25 @@ if __name__ == '__main__':
     mapx, mapy = cv2.initUndistortRectifyMap(mtx, dist, None, newcameramtx, (640, 480), 5)
     init()
     start()
-    action = action.action(speed=100,move_distance=20)
+    action = action.action(speed=100,move_distance=20,PID_P=1)
     action.Grab_correction_location(ik, distance = 0)
     threading.Thread(target=get_xywh, daemon=True).start()#daemon=True表示该线程会随着主线程的退出而退出
     cv2.waitKey(0)
     while True:
         if data != None:
             break
+        print('等待数据')
+        time.sleep(0.5)
+
+        
     while True:
-        flag = action.alignment(eval(data)[0],eval(data)[1],ik,high = 420)
+        flag = action.alignment_PID(eval(data)[0],eval(data)[1],ik,high = 420)
         if flag == True:
             print('对准了')
             break 
         if flag == False:
             print('没对准')
-    action.grap()
+    action.grap()   
     print('抓取完成')
     
     
