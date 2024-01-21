@@ -7,34 +7,6 @@ os.environ['YOLO_VERBOSE'] = str(False)
 from ultralytics import YOLO
 
 
-# 获取服务器的主机名和端口号
-# host = "192.168.1.36"
-# port = 6524
-# client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# client_socket.connect((host, port))# 连接服务器
-
-#要识别的颜色
-# red:0
-# blue:1
-# cup:2
-# detect_color = 1
-
-# def send_data_to_raspi(xywh,cls):
-#     global detect_x
-#     global detect_color
-#     for i in range(len(cls)):
-#         print(cls[i])
-#         if cls[i] == detect_color:
-#             if xywh[i][0] < detect_x:
-#                 detect_x = xywh[i][0]
-#                 data = str(xywh[i])
-#             else:
-#                 data = str("no")
-#         else:
-#             data = str("no")
-#     client_socket.send(data.encode())# 发送数据
-
-
 host = "192.168.1.36"
 port = 6524
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)# 创建客户端套接字
@@ -47,13 +19,14 @@ def send_data_to_raspi():#(xywh, cls)
     detect_color = 1
     min_x_data = None  # 初始化一个空列表
     min_x_value = 640  # 初始化最小x值为正无穷大
-    for i in range(len(cls)):
-        # print(cls[i])
-        if cls[i] == detect_color:
-            if xywh[i][0] < min_x_value:
-                min_x_value = xywh[i][0]
-                min_x_data = str(xywh[i])
-                # print(min_x_data)
+    if cls is None and xywh is None:
+        for i in range(len(cls)):
+            # print(cls[i])
+            if cls[i] == detect_color:
+                if xywh[i][0] < min_x_value:
+                    min_x_value = xywh[i][0]
+                    min_x_data = str(xywh[i])
+                    # print(min_x_data)
 
     if min_x_data is not None:
         print(min_x_data)
