@@ -266,7 +266,9 @@ if __name__ == "__main__":
 
             angle_x = int(math.degrees(math.atan2(ax, az)))
             angle_y = int(math.degrees(math.atan2(ay, az)))
-            print('angle_x:', angle_x, ' '*(3 - len(str(angle_x))) + 'angle_y:', angle_y)
+            angle_z = int(math.degrees(math.atan2(ax, ay)))
+            # print('angle_x:', angle_x, ' '*(3 - len(str(angle_x))) + 'angle_y:', angle_y)
+            print('angle_x:', angle_x, ' '*(3 - len(str(angle_x))) + 'angle_y:', angle_y, ' '*(3 - len(str(angle_y))) + 'angle_z:', angle_z)
             time.sleep(0.1)
         except KeyboardInterrupt:
             break

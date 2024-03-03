@@ -134,7 +134,15 @@ if __name__ == '__main__':
                         print(f"Hat {event.hat} moved to {event.value}")
                         if event.hat == 0:#速度全部为30
                             if event.value[1] == 1:
-                                ik.go_forward(ik.initial_pos, 2, 50, 30, 1)  # 朝前直走100mm
+                                ik.go_forward(ik.initial_pos, 2, 100, 30, 1)  # 朝前直走100mm
+                                ik.go_forward(ik.initial_pos, 2, 100, 30, 1)  # 朝前直走100mm
+                                ik.go_forward(ik.initial_pos, 2, 100, 30, 1)  # 朝前直走100mm
+                                ik.go_forward(ik.initial_pos, 2, 100, 30, 1)  # 朝前直走100mm
+                                ik.go_forward(ik.initial_pos, 2, 100, 30, 1)  # 朝前直走100mm
+                                ik.go_forward(ik.initial_pos, 2, 100, 30, 1)  # 朝前直走100mm
+                                ik.go_forward(ik.initial_pos, 2, 100, 30, 1)  # 朝前直走100mm
+                                ik.go_forward(ik.initial_pos, 2, 100, 30, 1)  # 朝前直走100mm
+                                ik.go_forward(ik.initial_pos, 2, 100, 30, 1)  # 朝前直走100mm
                             if event.value[1] == -1:
                                 ik.back(ik.initial_pos, 2, 50, 30, 1)# 朝后直走100mm
                             if event.value[0] == -1:

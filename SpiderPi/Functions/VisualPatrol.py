@@ -13,6 +13,8 @@ import kinematics as kinematics
 import HiwonderSDK.Board as Board
 import ArmIK.ArmMoveIK as AMK
 
+
+import HiwonderSDK.ActionGroupControl as AGC#动作组控制
 ik = kinematics.IK()
 HWSONAR = None
 AK = AMK.ArmIK()
@@ -63,6 +65,7 @@ def init():
     print("VisualPatrol Init")
     load_config()
     initMove()
+    AGC.runAction('init_actions')#初始化视角，可以正常看到识别的色块
 
 __isRunning = False
 # app开始玩法调用
@@ -198,7 +201,7 @@ if __name__ == '__main__':
     HWSONAR = Sonar.Sonar()
     init()
     start()
-    __target_color = ('red',)
+    __target_color = ('black',)
     my_camera = Camera.Camera()
     my_camera.camera_open()
     while True:

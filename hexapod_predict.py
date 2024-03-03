@@ -8,8 +8,8 @@ from ultralytics import YOLO
 from get_need_result import convert_boxes
 
 # host = socket.gethostname()
-host = "192.168.1.36"
-port = 6524
+host = "172.20.10.3"
+port = 1024
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)# 创建客户端套接字
 client_socket.connect((host, port))# 连接服务器
@@ -35,8 +35,9 @@ def send_data_to_raspi(xywh, cls):
         # time.sleep(0.05)
         client_socket.send(min_x_data.encode())      # 发送数据
 
-model = YOLO('hexapod_cup.pt')
-video_stream_url = 'http://192.168.1.36:5000/video_feed'
+model = YOLO('hexapod_cup_v2.pt')
+# video_stream_url = 'http://192.168.1.36:5000/video_feed'
+video_stream_url = 'http://172.20.10.3:5000/video_feed'
 # video_stream_url = "save_video/hexapod.avi"
 cap = cv2.VideoCapture(video_stream_url)
 start_time = time.time()
@@ -57,6 +58,7 @@ if __name__ == '__main__':
                 # if cout%5 == 0:
                 # send_data_to_raspi(xywh,cls)
                 send_data_to_raspi_aal(xywh,cls)
+                print(cls)
                 # print(xywh)
 
                 # 显示带注释的帧

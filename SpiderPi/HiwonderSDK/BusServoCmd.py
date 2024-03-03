@@ -39,7 +39,7 @@ LOBOT_SERVO_LED_ERROR_READ       = 36
 rx_pin = 7
 tx_pin = 13
 
-GPIO.setwarnings(False)
+GPIO.setwarnings(False)#关闭警告
 GPIO.setmode(GPIO.BOARD)
 
 serialHandle = serial.Serial("/dev/ttyAMA0", 115200)  # 初始化串口， 波特率为115200
