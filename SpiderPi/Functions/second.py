@@ -78,7 +78,7 @@ def recv_data_all():
     host = get_local_ip()
     print(host)
     port = 1024
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)       #参数1：地址簇；参数2：类型
     server_socket.bind((host, port))
     server_socket.listen(1)
     print(f"Waiting for connection at {host}:{port}...")

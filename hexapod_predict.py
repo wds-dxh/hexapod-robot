@@ -7,13 +7,13 @@ os.environ['YOLO_VERBOSE'] = str(False)
 from ultralytics import YOLO
 from get_need_result import convert_boxes
 
-host = "192.168.1.36"   # 修改为树莓派的IP地址
+host = "192.168.149.1"   # 修改为树莓派的IP地址
 port = 1024
 
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((host, port))
-
+ 
 def send_data_to_raspi_aal(xywh, cls):
     data_to_send = {"xywh": xywh, "cls": cls}
     json_data = json.dumps(data_to_send)
