@@ -83,11 +83,11 @@ def generate_frames():
     #加载参数
     param_data = np.load(calibration_param_path + '.npz')
     #获取参数
-    mtx = param_data['mtx_array']
-    dist = param_data['dist_array']
+    mtx = param_data['mtx_array']   #相机内参
+    dist = param_data['dist_array'] #畸变参数
     newcameramtx, _ = cv2.getOptimalNewCameraMatrix(mtx, dist, (640, 480), 0, (640, 480))#自由比例参数
     mapx, mapy = cv2.initUndistortRectifyMap(mtx, dist, None, newcameramtx, (640, 480), 5)  # 获取映射方程
-    # my_camera = Camera.Camera()
+    # my_camera = Camera.Camera()   
     # my_camera.camera_open()
     cap = cv2.VideoCapture(0)
     while True:

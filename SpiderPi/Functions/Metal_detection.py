@@ -6,7 +6,8 @@ class Metal_detection():
     def __init__(self):
         self.read_pin = 18
         # 设置GPIO口为输出
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BOARD)        # 使用物理编号方式编号,一共有40个引脚。
+        # 编码方式有两种：BOARD和BCM
         GPIO.setup(self.read_pin, GPIO.IN)
         # GPIO.setmode(gpio.BOARD)
     #定义析构函数
